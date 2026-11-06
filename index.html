@@ -1,222 +1,182 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KRISHNA AI | Trading Terminal</title>
-<script src="https://unpkg.com/lightweight-charts@4.2.2/dist/lightweight-charts.standalone.production.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRISHNA AI BOT</title>
 <style>
-:root {
-  --bg:#080d16; --panel:#101827; --line:#202d40;
-  --text:#eef3ff; --muted:#8291a8;
-  --gold:#d6b46a; --green:#18c995; --red:#fa6578;
-}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-header{height:66px;border-bottom:1px solid var(--line);
-display:flex;align-items:center;justify-content:space-between;
-padding:0 18px;background:#0c1320}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{width:39px;height:39px;border-radius:12px;
-background:linear-gradient(135deg,#e5c67b,#75501d);
-display:grid;place-items:center;font-size:22px}
-.brand h2{font-size:17px;letter-spacing:1px;margin:0}
-.brand small{display:block;color:var(--gold);font-size:9px;letter-spacing:2px}
-.status{font-size:11px;color:var(--green)}
-.layout{display:grid;grid-template-columns:205px 1fr;min-height:calc(100vh - 66px)}
-aside{border-right:1px solid var(--line);padding:16px 12px}
-.section{font-size:10px;color:var(--muted);letter-spacing:1.5px;margin:10px 8px}
-.market{width:100%;border:0;background:transparent;color:var(--text);
-padding:12px 10px;border-radius:9px;text-align:left;
-display:flex;justify-content:space-between;align-items:center;
-margin:3px 0;cursor:pointer;font-size:12px}
-.market.active,.market:hover{background:#1b2b40}
-.market small{color:var(--muted);font-size:10px}
-main{padding:18px;min-width:0}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-h1{font-size:21px;margin:0 0 5px}
-.sub{color:var(--muted);font-size:11px}
-.demo{background:#49371b;color:#f3ce83;border-radius:5px;padding:6px 9px;font-size:10px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
-.card{background:var(--panel);border:1px solid var(--line);
-border-radius:12px;padding:14px;min-width:0}
-.card label{display:block;color:var(--muted);font-size:10px;margin-bottom:9px}
-.card strong{font-size:19px}
-.green{color:var(--green)} .red{color:var(--red)}
-.chartbox{background:var(--panel);border:1px solid var(--line);
-border-radius:12px;padding:14px;margin-bottom:14px}
-.charthead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-.charthead strong{font-size:14px}
-.controls{display:flex;gap:5px;flex-wrap:wrap}
-.controls button{background:#1a2638;color:#aebbd0;border:0;
-padding:7px 10px;border-radius:6px;font-size:10px}
-.controls button.active{background:#344760;color:white}
-#chart{height:340px;width:100%;margin-top:12px}
-.bottom{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.trade{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.trade div{background:#182438;padding:12px;border-radius:8px}
-.trade label{display:block;color:var(--muted);font-size:10px;margin-bottom:7px}
-.trade strong{font-size:15px}
-.footer{color:var(--muted);font-size:10px;text-align:center;padding:22px}
-@media(max-width:700px){
+body{margin:0;background:#090e18;color:#e8edf7;font-family:Arial,sans-serif}
+header{height:62px;background:#101827;border-bottom:1px solid #263247;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.logo{font-size:19px;font-weight:800;color:#a78bfa}
+.status{font-size:11px;color:#37d99a}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 62px)}
+aside{background:#101827;border-right:1px solid #263247;padding:14px}
+h3{font-size:13px;color:#9aa9c1;margin:8px 0 14px}
+.market{width:100%;padding:12px 10px;background:transparent;color:#dce5f5;border:0;border-radius:7px;text-align:left;margin:3px 0;cursor:pointer;font-size:13px}
+.market:hover,.market.active{background:#27304b;color:#bba6ff}
+main{padding:14px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+#symbol{font-size:20px;font-weight:bold}
+select,input{background:#151f31;border:1px solid #34415a;color:white;padding:10px;border-radius:7px}
+.tools{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.tools button{background:#172236;border:1px solid #34415a;color:#dce5f5;padding:8px 13px;border-radius:6px}
+.tools button.active{background:#5942a8}
+#chart{height:570px;width:100%;background:#111927;border:1px solid #263247;border-radius:9px;overflow:hidden}
+.note{font-size:11px;color:#8795aa;margin-top:10px;line-height:1.5}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.card{background:#111b2b;border:1px solid #263247;padding:13px;border-radius:8px}
+.card small{color:#91a0b8;font-size:11px}
+.card strong{display:block;margin-top:7px;font-size:16px}
+.search{width:100%;margin-bottom:12px}
+@media(max-width:650px){
 .layout{grid-template-columns:1fr}
-aside{border-right:0;border-bottom:1px solid var(--line);padding:10px}
-.watch{display:flex;overflow-x:auto;gap:5px}
-.market{min-width:115px;width:auto}
-main{padding:12px}
-.stats{grid-template-columns:repeat(2,1fr);gap:8px}
-.card{padding:11px}
-.card strong{font-size:17px}
-#chart{height:290px}
-.bottom{grid-template-columns:1fr}
+aside{border-right:0;border-bottom:1px solid #263247}
+.market-list{display:flex;overflow-x:auto;gap:5px}
+.market{white-space:nowrap;width:auto;flex-shrink:0}
+#chart{height:460px}
+main{padding:10px}
+.cards{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 <body>
 <header>
- <div class="brand">
-  <div class="logo">🪷</div>
-  <div><h2>KRISHNA AI</h2><small>TRADING INTELLIGENCE</small></div>
- </div>
- <div class="status">● SYSTEM READY</div>
+<div class="logo">🪷 KRISHNA AI BOT</div>
+<div class="status">● MARKET CHARTS</div>
 </header>
 
 <div class="layout">
 <aside>
- <div class="section">MARKET WATCH</div>
- <div class="watch">
-  <button class="market active" data-name="NIFTY 50">NIFTY 50 <small>INDEX</small></button>
-  <button class="market" data-name="BANKNIFTY">BANKNIFTY <small>INDEX</small></button>
-  <button class="market" data-name="SENSEX">SENSEX <small>INDEX</small></button>
-  <button class="market" data-name="RELIANCE">RELIANCE <small>STOCK</small></button>
-  <button class="market" data-name="TCS">TCS <small>STOCK</small></button>
-  <button class="market" data-name="BTC/USDT">BTC/USDT <small>CRYPTO</small></button>
-  <button class="market" data-name="ETH/USDT">ETH/USDT <small>CRYPTO</small></button>
-  <button class="market" data-name="XAU/USD">XAU/USD <small>GOLD</small></button>
-  <button class="market" data-name="XAG/USD">XAG/USD <small>SILVER</small></button>
- </div>
- <div class="section">MORE MARKETS</div>
- <div class="sub">F&O · STOCKS · CRYPTO · METALS</div>
- <div class="section">COMING LATER</div>
- <div class="sub">Forex market</div>
+<h3>MARKET WATCH</h3>
+<input class="search" id="search" placeholder="Search market..." oninput="filterMarkets()">
+<div class="market-list" id="marketList"></div>
 </aside>
 
 <main>
- <div class="top">
-  <div>
-   <h1 id="symbol">NIFTY 50</h1>
-   <div class="sub">Market overview · Trading terminal</div>
-  </div>
-  <span class="demo">DEMO DATA · NOT LIVE</span>
- </div>
+<div class="top">
+<div>
+<div id="symbol">NIFTY 50</div>
+<div style="font-size:11px;color:#91a0b8;margin-top:5px" id="exchange">NSE · Market chart</div>
+</div>
+<select id="timeframe" onchange="changeTimeframe()">
+<option value="1">1 Minute</option>
+<option value="5">5 Minutes</option>
+<option value="15">15 Minutes</option>
+<option value="30">30 Minutes</option>
+<option value="60">1 Hour</option>
+<option value="240">4 Hours</option>
+<option value="D" selected>1 Day</option>
+<option value="W">1 Week</option>
+</select>
+</div>
 
- <div class="stats">
-  <div class="card"><label>LAST PRICE</label><strong id="price">--</strong></div>
-  <div class="card"><label>24H CHANGE</label><strong class="green">+0.00%</strong></div>
-  <div class="card"><label>MARKET STATUS</label><strong style="font-size:14px">Preview</strong></div>
-  <div class="card"><label>AI SIGNAL</label><strong style="font-size:14px">WAIT</strong></div>
- </div>
+<div class="cards">
+<div class="card"><small>SELECTED MARKET</small><strong id="marketName">NIFTY 50</strong></div>
+<div class="card"><small>CHART SOURCE</small><strong>TradingView</strong></div>
+<div class="card"><small>DATA STATUS</small><strong style="color:#37d99a">Provider feed</strong></div>
+</div>
 
- <div class="chartbox">
-  <div class="charthead">
-   <strong>Price Chart</strong>
-   <div class="controls" id="timeframes">
-    <button data-tf="1">1m</button>
-    <button data-tf="5" class="active">5m</button>
-    <button data-tf="15">15m</button>
-    <button data-tf="60">1H</button>
-    <button data-tf="240">4H</button>
-    <button data-tf="D">1D</button>
-   </div>
-  </div>
-  <div id="chart"></div>
- </div>
+<div class="tools">
+<button class="active" onclick="setStyle('1',this)">Candles</button>
+<button onclick="setStyle('0',this)">Bars</button>
+<button onclick="setStyle('2',this)">Line</button>
+</div>
 
- <div class="bottom">
-  <div class="card">
-   <label>TRADE INFORMATION</label>
-   <div class="trade">
-    <div><label>ENTRY PRICE</label><strong>--</strong></div>
-    <div><label>STOP LOSS</label><strong class="red">--</strong></div>
-    <div><label>TARGET 1</label><strong class="green">--</strong></div>
-    <div><label>TARGET 2</label><strong class="green">--</strong></div>
-   </div>
-  </div>
-  <div class="card">
-   <label>AI TRADING ENGINE</label>
-   <h2 style="font-size:17px;margin:5px 0">KRISHNA AI</h2>
-   <p class="sub">Analysis engine is being developed.</p>
-   <p class="sub">No real orders are being placed.</p>
-  </div>
- </div>
- <div class="footer">KRISHNA AI · Built with discipline and precision</div>
+<div id="chart"></div>
+<div class="note">
+Charts are provided by TradingView. Data availability and delays depend on the exchange and provider. Some real-time exchange data may require a subscription. This dashboard does not place trades or execute broker orders.
+</div>
 </main>
 </div>
 
 <script>
-const chartEl=document.getElementById('chart');
-const chart=LightweightCharts.createChart(chartEl,{
- layout:{background:{color:'#101827'},textColor:'#aab8cd'},
- grid:{vertLines:{color:'#1d2a3b'},horzLines:{color:'#1d2a3b'}},
- rightPriceScale:{borderColor:'#29384c'},
- timeScale:{borderColor:'#29384c',timeVisible:true},
- crosshair:{mode:1}
-});
-const candles=chart.addCandlestickSeries({
- upColor:'#18c995',downColor:'#fa6578',
- borderUpColor:'#18c995',borderDownColor:'#fa6578',
- wickUpColor:'#18c995',wickDownColor:'#fa6578'
-});
-let seed=0;
-function makeData(){
- let value=22000+seed*1500;
- let data=[];
- let now=Math.floor(Date.now()/1000);
- for(let i=100;i>=0;i--){
-  let open=value;
-  let move=(Math.sin(i*.7+seed)*35)+(Math.cos(i*.2)*20);
-  let close=open+move;
-  data.push({
-   time:now-i*300,
-   open:open,
-   high:Math.max(open,close)+Math.random()*18,
-   low:Math.min(open,close)-Math.random()*18,
-   close:close
-  });
-  value=close;
- }
- return data;
-}
-function updateChart(){
- let data=makeData();
- candles.setData(data);
- document.getElementById('price').textContent=
- data[data.length-1].close.toFixed(2);
- chart.timeScale().fitContent();
-}
-updateChart();
+const markets=[
+{name:"NIFTY 50",symbol:"NSE:NIFTY",exchange:"NSE"},
+{name:"BANKNIFTY",symbol:"NSE:BANKNIFTY",exchange:"NSE"},
+{name:"SENSEX",symbol:"BSE:SENSEX",exchange:"BSE"},
+{name:"RELIANCE",symbol:"NSE:RELIANCE",exchange:"NSE"},
+{name:"TCS",symbol:"NSE:TCS",exchange:"NSE"},
+{name:"HDFC BANK",symbol:"NSE:HDFCBANK",exchange:"NSE"},
+{name:"ICICI BANK",symbol:"NSE:ICICIBANK",exchange:"NSE"},
+{name:"INFOSYS",symbol:"NSE:INFY",exchange:"NSE"},
+{name:"SBIN",symbol:"NSE:SBIN",exchange:"NSE"},
+{name:"BTC / USDT",symbol:"BINANCE:BTCUSDT",exchange:"BINANCE"},
+{name:"ETH / USDT",symbol:"BINANCE:ETHUSDT",exchange:"BINANCE"},
+{name:"SOL / USDT",symbol:"BINANCE:SOLUSDT",exchange:"BINANCE"},
+{name:"XAU / USD",symbol:"OANDA:XAUUSD",exchange:"OANDA"},
+{name:"XAG / USD",symbol:"OANDA:XAGUSD",exchange:"OANDA"}
+];
 
-document.querySelectorAll('.market').forEach(button=>{
- button.addEventListener('click',()=>{
-  document.querySelectorAll('.market').forEach(b=>b.classList.remove('active'));
-  button.classList.add('active');
-  document.getElementById('symbol').textContent=button.dataset.name;
-  seed++;
-  updateChart();
- });
+let selected=markets[0];
+let chartStyle="1";
+
+function renderMarkets(){
+const list=document.getElementById("marketList");
+list.innerHTML="";
+markets.forEach(m=>{
+const b=document.createElement("button");
+b.className="market"+(m===selected?" active":"");
+b.textContent=m.name;
+b.onclick=()=>selectMarket(m);
+list.appendChild(b);
 });
-document.querySelectorAll('#timeframes button').forEach(button=>{
- button.addEventListener('click',()=>{
-  document.querySelectorAll('#timeframes button').forEach(b=>b.classList.remove('active'));
-  button.classList.add('active');
-  updateChart();
- });
+}
+
+function filterMarkets(){
+const q=document.getElementById("search").value.toLowerCase();
+document.querySelectorAll(".market").forEach((b,i)=>{
+b.style.display=markets[i].name.toLowerCase().includes(q)?"block":"none";
 });
-new ResizeObserver(()=>{
- chart.applyOptions({width:chartEl.clientWidth});
-}).observe(chartEl);
+}
+
+function selectMarket(m){
+selected=m;
+document.getElementById("symbol").textContent=m.name;
+document.getElementById("marketName").textContent=m.name;
+document.getElementById("exchange").textContent=m.exchange+" · Market chart";
+renderMarkets();
+loadChart();
+}
+
+function changeTimeframe(){loadChart()}
+
+function setStyle(style,button){
+chartStyle=style;
+document.querySelectorAll(".tools button").forEach(b=>b.classList.remove("active"));
+button.classList.add("active");
+loadChart();
+}
+
+function loadChart(){
+const box=document.getElementById("chart");
+box.innerHTML="";
+const script=document.createElement("script");
+script.src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+script.async=true;
+script.type="text/javascript";
+script.innerHTML=JSON.stringify({
+autosize:true,
+symbol:selected.symbol,
+interval:document.getElementById("timeframe").value,
+timezone:"Asia/Kolkata",
+theme:"dark",
+style:chartStyle,
+locale:"en",
+backgroundColor:"#111927",
+gridColor:"rgba(42,55,78,0.5)",
+hide_top_toolbar:false,
+hide_legend:false,
+allow_symbol_change:true,
+save_image:false,
+calendar:false,
+support_host:"https://www.tradingview.com"
+});
+box.appendChild(script);
+}
+
+renderMarkets();
+loadChart();
 </script>
 </body>
 </html>
